@@ -5,10 +5,15 @@ Ce projet est configuré pour être déployé automatiquement sur GitHub Pages v
 ## Configuration requise
 
 1. **Activer GitHub Pages** dans les paramètres du dépôt :
-   - Allez dans Settings > Pages
-   - Source : sélectionnez "GitHub Actions"
+   - Allez dans votre dépôt GitHub
+   - Cliquez sur **Settings** (Paramètres)
+   - Dans le menu de gauche, cliquez sur **Pages**
+   - Sous **Source**, sélectionnez **"GitHub Actions"** (pas "Deploy from a branch")
+   - ⚠️ **Important** : Vous devez activer GitHub Pages manuellement avant le premier déploiement
 
 2. **Branche principale** : Le workflow se déclenche sur les branches `main` ou `master`
+
+3. **Permissions** : Assurez-vous que votre dépôt a les permissions nécessaires pour GitHub Pages
 
 ## Déploiement automatique
 
