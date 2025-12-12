@@ -1,0 +1,194 @@
+<div class="articles-container">
+  <div class="articles-header">
+    <h1>Mes Articles</h1>
+    <div class="header-actions">
+      <button 
+        class="btn btn-secondary" 
+        (click)="toggleViewMode()"
+        [title]="viewMode() === 'list' ? 'Vue par catégories' : 'Vue liste'"
+      >
+        @if (viewMode() === 'list') {
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3h18v18H3zM3 9h18M9 3v18"/>
+          </svg>
+          Par catégories
+        } @else {
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"/>
+            <line x1="8" y1="12" x2="21" y2="12"/>
+            <line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/>
+            <line x1="3" y1="12" x2="3.01" y2="12"/>
+            <line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+          Liste
+        }
+      </button>
+      <a routerLink="/editor" class="btn btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Nouvel article
+      </a>
+    </div>
+  </div>
+
+  <!-- Barre de recherche et filtres -->
+  <div class="filters-section">
+    <div class="search-bar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input 
+        type="text" 
+        placeholder="Rechercher un article..."
+        [value]="searchQuery()"
+        (input)="onSearchChange($any($event.target).value)"
+        class="search-input"
+      />
+      @if (searchQuery()) {
+        <button class="clear-btn" (click)="searchQuery.set('')" title="Effacer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      }
+    </div>
+
+    <div class="filters-row">
+      <div class="filter-group">
+        <label>Catégorie</label>
+        <select 
+          [value]="selectedCategory() || ''"
+          (change)="onCategoryChange($any($event.target).value || null)"
+          class="filter-select"
+        >
+          <option value="">Toutes les catégories</option>
+          @for (category of categories(); track category) {
+            <option [value]="category">{{ category }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Tag</label>
+        <select 
+          [value]="selectedTag() || ''"
+          (change)="onTagChange($any($event.target).value || null)"
+          class="filter-select"
+        >
+          <option value="">Tous les tags</option>
+          @for (tag of tags(); track tag) {
+            <option [value]="tag">{{ tag }}</option>
+          }
+        </select>
+      </div>
+
+      @if (searchQuery() || selectedCategory() || selectedTag()) {
+        <button class="btn btn-secondary clear-filters" (click)="clearFilters()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          Réinitialiser
+        </button>
+      }
+    </div>
+
+    @if (searchQuery() || selectedCategory() || selectedTag()) {
+      <div class="results-count">
+        {{ filteredArticles().length }} article(s) trouvé(s)
+      </div>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <p>Chargement des articles...</p>
+    </div>
+  } @else if (filteredArticles().length === 0) {
+    <div class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+      <h2>@if (searchQuery() || selectedCategory() || selectedTag()) {
+        Aucun article trouvé
+      } @else {
+        Aucun article
+      }</h2>
+      <p>@if (searchQuery() || selectedCategory() || selectedTag()) {
+        Essayez de modifier vos critères de recherche
+      } @else {
+        Commencez par créer votre premier article
+      }</p>
+      @if (!searchQuery() && !selectedCategory() && !selectedTag()) {
+        <a routerLink="/editor" class="btn btn-primary">Créer un article</a>
+      } @else {
+        <button class="btn btn-primary" (click)="clearFilters()">Réinitialiser les filtres</button>
+      }
+    </div>
+  } @else {
+    @if (viewMode() === 'list') {
+      <div class="articles-grid">
+        @for (article of filteredArticles(); track article.id) {
+          <a [routerLink]="['/article', article.id]" class="article-card">
+            <div class="article-header">
+              <h3>{{ article.title }}</h3>
+              @if (article.category) {
+                <span class="category-badge">{{ article.category }}</span>
+              }
+            </div>
+            <p class="excerpt">{{ article.excerpt }}</p>
+            @if (article.tags && article.tags.length > 0) {
+              <div class="tags">
+                @for (tag of article.tags; track tag) {
+                  <span class="tag">{{ tag }}</span>
+                }
+              </div>
+            }
+            <span class="date">{{ formatDate(article.updatedAt) }}</span>
+          </a>
+        }
+      </div>
+    } @else {
+      <div class="categories-view">
+        @for (group of articlesByCategory(); track group.category) {
+          <div class="category-section">
+            <h2 class="category-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3h18v18H3zM3 9h18M9 3v18"/>
+              </svg>
+              {{ group.category }}
+              <span class="article-count">({{ group.articles.length }})</span>
+            </h2>
+            <div class="articles-grid">
+              @for (article of group.articles; track article.id) {
+                <a [routerLink]="['/article', article.id]" class="article-card">
+                  <div class="article-header">
+                    <h3>{{ article.title }}</h3>
+                  </div>
+                  <p class="excerpt">{{ article.excerpt }}</p>
+                  @if (article.tags && article.tags.length > 0) {
+                    <div class="tags">
+                      @for (tag of article.tags; track tag) {
+                        <span class="tag">{{ tag }}</span>
+                      }
+                    </div>
+                  }
+                  <span class="date">{{ formatDate(article.updatedAt) }}</span>
+                </a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+
