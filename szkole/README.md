@@ -1,27 +1,78 @@
 # Szkole
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+Application Angular "GitBook-like" pour la veille technologique personnelle.
 
-## Development server
+## 🚀 Fonctionnalités
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- ✍️ **Éditeur Markdown** avec prévisualisation en temps réel
+- 📚 **Gestion d'articles** en format Markdown
+- 🌙 **Thème sombre/clair** avec toggle
+- 🔍 **Recherche et filtrage** par catégories et tags
+- 📖 **Vue de lecture optimisée** avec table des matières
+- 💾 **Stockage local** avec IndexedDB
+- 📤 **Import/Export** de fichiers .md
+- 🎨 **Interface moderne** et responsive
 
-## Code scaffolding
+## 📦 Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+cd szkole
+npm install
+```
 
-## Build
+## 🛠️ Développement
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm start
+```
 
-## Running unit tests
+L'application sera accessible sur `http://localhost:4200`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🏗️ Build
 
-## Running end-to-end tests
+```bash
+# Build de production
+npm run build:prod
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# Build pour GitHub Pages
+npm run build:gh-pages
+```
 
-## Further help
+## 📤 Déploiement
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Le projet est configuré pour un déploiement automatique sur GitHub Pages via GitHub Actions.
+
+### Configuration initiale
+
+1. Activez GitHub Pages dans les paramètres de votre dépôt :
+   - Settings > Pages
+   - Source : sélectionnez "GitHub Actions"
+
+2. Le déploiement se fait automatiquement à chaque push sur `main` ou `master`
+
+### Déploiement manuel
+
+- Allez dans Actions > Deploy to GitHub Pages > Run workflow
+
+Voir [DEPLOY.md](./DEPLOY.md) pour plus de détails.
+
+## 🎯 Utilisation
+
+1. **Créer un article** : Cliquez sur "Nouvel article" dans la sidebar
+2. **Éditer** : Utilisez l'éditeur Markdown avec prévisualisation
+3. **Organiser** : Ajoutez des catégories et tags pour organiser vos articles
+4. **Rechercher** : Utilisez la barre de recherche et les filtres
+5. **Lire** : Profitez de la vue de lecture optimisée avec table des matières
+
+## 🛠️ Technologies
+
+- Angular 18
+- TypeScript
+- Marked (rendu Markdown)
+- Highlight.js (coloration syntaxique)
+- IndexedDB (stockage local)
+- SCSS
+
+## 📝 Licence
+
+Ce projet est un projet personnel.

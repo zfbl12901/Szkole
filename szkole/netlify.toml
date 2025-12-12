@@ -1,0 +1,12 @@
+# Configuration Netlify (optionnel)
+# Pour déployer sur Netlify au lieu de GitHub Pages
+
+[build]
+  command = "npm run build:prod"
+  publish = "dist/szkole/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
