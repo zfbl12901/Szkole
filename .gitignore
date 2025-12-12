@@ -1,0 +1,23 @@
+# Backend
+backend/node_modules/
+backend/.env
+backend/data/
+backend/*.db
+backend/*.log
+
+# Frontend
+szkole/node_modules/
+szkole/dist/
+szkole/.angular/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
