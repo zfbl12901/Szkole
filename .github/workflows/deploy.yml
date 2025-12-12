@@ -36,7 +36,7 @@ jobs:
 
       - name: Build Angular application
         working-directory: szkole
-        run: npm run build -- --base-href /szkole/
+        run: npm run build -- --base-href /${{ github.event.repository.name }}/
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
 
